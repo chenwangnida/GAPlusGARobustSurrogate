@@ -67,7 +67,6 @@ public class WSCInitializer extends SimpleInitializer {
 	public static double w6;
 	public static double exact = 1.00;
 	public static double plugin = 0.75;
-	
 
 	public static double MINIMUM_COST = Double.MAX_VALUE;
 	public static double MINIMUM_TIME = Double.MAX_VALUE;
@@ -75,7 +74,7 @@ public class WSCInitializer extends SimpleInitializer {
 	public static double MINIMUM_AVAILABILITY = 0;
 	public static double MINIMUM_MATCHTYPE = 0;
 	public static double MININUM_SEMANTICDISTANCE = 0;
-	
+
 	public static double MININUM_FAIL_PR = 1;
 
 	public static double MAXIMUM_COST = Double.MIN_VALUE;
@@ -84,10 +83,8 @@ public class WSCInitializer extends SimpleInitializer {
 	public static double MAXIMUM_AVAILABILITY = Double.MIN_VALUE;
 	public static double MAXINUM_MATCHTYPE = 1;
 	public static double MAXINUM_SEMANTICDISTANCE = 1;
-	
+
 	public static double MAXINUM_FAIL_PR = 2;
-
-
 
 	// data
 	public static WSCRandom random;
@@ -115,37 +112,35 @@ public class WSCInitializer extends SimpleInitializer {
 	public static final double sd_failure_probability = 0.1732;
 	public static final double lb = 0.0;
 	public static final double ub = 1;
-	
+
 	public int robustNum;
 	public int lsNum;
+	public static int archiveSize;
+	public static int restartSize;
 	
-	
-	//initial value of weight for no failures important scenario 
+
+	// initial value of weight for no failures important scenario
 	public static List<Double> weightList = new ArrayList<Double>();
 	public static double weight4NoFailrues = 0.0;
 	public static long testingStartTime;
 	public static ArrayList<Long> initTime_testing = new ArrayList<Long>();
 	public static ArrayList<Long> time_testing = new ArrayList<Long>();
 	public int robustNum_testing;
-	
-	//create archive
-	public static List<Individual> arvIndi =  new ArrayList<Individual>();
-	
+
+	// create archive
+	public static List<Individual> arvIndi = new ArrayList<Individual>();
+
 	@Override
 	public void setup(EvolutionState state, Parameter base) {
 		long startTime = System.currentTimeMillis();
 
 		random = new WSCRandom(state.random[0]);
 		super.setup(state, base);
-		
-		
-		
-		
-		//random seed for failure probability
+
+		// random seed for failure probability
 		RandomGenerator r = new MersenneTwister();
 		r.setSeed(0);
 		TruncatedNormal nd = new TruncatedNormal(r, mean_failure_probability, sd_failure_probability, lb, ub);
-
 
 		Parameter servicesParam = new Parameter("composition-services");
 		Parameter taskParam = new Parameter("composition-task");
@@ -160,9 +155,8 @@ public class WSCInitializer extends SimpleInitializer {
 		Parameter lsNumParam = new Parameter("lsNum");
 		Parameter seedNum = new Parameter("seed.0");
 		Parameter robustNumTestingParam = new Parameter("robustNum-testing");
-
-		
-
+		Parameter archiveParam = new Parameter("archive");
+		Parameter restartParam = new Parameter("restart");
 
 		String serviceFileName = state.parameters.getStringWithDefault(servicesParam, null, null);
 		String taskFileName = state.parameters.getStringWithDefault(taskParam, null, null);
@@ -177,12 +171,12 @@ public class WSCInitializer extends SimpleInitializer {
 		robustNum = state.parameters.getInt(robustNumParam, null);
 		lsNum = state.parameters.getInt(lsNumParam, null);
 		int seed = state.parameters.getInt(seedNum, null);
-		robustNum_testing  =  state.parameters.getInt(robustNumTestingParam, null);
-
+		robustNum_testing = state.parameters.getInt(robustNumTestingParam, null);
 		
+		archiveSize = state.parameters.getInt(archiveParam, null);
+		restartSize = state.parameters.getInt(restartParam, null);
+
 		random_disturbace = new Random(seed);
-
-
 
 		try {
 			// register task
@@ -190,10 +184,9 @@ public class WSCInitializer extends SimpleInitializer {
 
 			// register web services with related ontology
 			initialWSCPool = new InitialWSCPool(serviceFileName, taxonomyFileName);
-			
+
 			// register web services with sampled failure probability
 			initialWSCPool.addFP2Sers(nd);
-			
 
 			// construct ontology tree structure
 			ontologyDAG = createOntologyDAG(initialWSCPool);

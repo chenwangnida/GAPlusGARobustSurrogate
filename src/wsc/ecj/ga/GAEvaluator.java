@@ -27,39 +27,47 @@ public class GAEvaluator extends SimpleEvaluator {
 		// TODO Auto-generated method stub
 		super.evaluatePopulation(state);
 
-		Individual[] currentPopArray = state.population.subpops[0].individuals;
+		// We are build archive before the restartSize
 
-		List<Individual> currentPopList = Lists.newArrayList(currentPopArray);
+		if (state.generation < WSCInitializer.restartSize) {
 
-		WSCInitializer.arvIndi.addAll(currentPopList);
+			Individual[] currentPopArray = state.population.subpops[0].individuals;
 
-		// remove duplicates based on fitness values
+			List<Individual> currentPopList = Lists.newArrayList(currentPopArray);
 
-		Map<Double, Individual> noduplicatedIndi = new HashMap<Double, Individual>();
-		for (Individual indi : WSCInitializer.arvIndi) {
-			Double key = indi.fitness.fitness();
-			if (!noduplicatedIndi.containsKey(key)) {
-				noduplicatedIndi.put(key, indi);
+			WSCInitializer.arvIndi.addAll(currentPopList);
+
+			// remove duplicates based on fitness values
+
+			Map<Double, Individual> noduplicatedIndi = new HashMap<Double, Individual>();
+			for (Individual indi : WSCInitializer.arvIndi) {
+				Double key = indi.fitness.fitness();
+				if (!noduplicatedIndi.containsKey(key)) {
+					noduplicatedIndi.put(key, indi);
+				}
 			}
-		}
 
-		Collection<Individual> noduplicatedIndiCon = noduplicatedIndi.values();
-		WSCInitializer.arvIndi.clear();
-		WSCInitializer.arvIndi.addAll(noduplicatedIndiCon);
+			Collection<Individual> noduplicatedIndiCon = noduplicatedIndi.values();
+			WSCInitializer.arvIndi.clear();
+			WSCInitializer.arvIndi.addAll(noduplicatedIndiCon);
 
-		Ordering<Individual> orderingByFit = new Ordering<Individual>() {
-			@Override
-			public int compare(Individual p1, Individual p2) {
-				return Double.compare(p2.fitness.fitness(), p1.fitness.fitness());
+			Ordering<Individual> orderingByFit = new Ordering<Individual>() {
+				@Override
+				public int compare(Individual p1, Individual p2) {
+					return Double.compare(p2.fitness.fitness(), p1.fitness.fitness());
+				}
+			};
+
+			// sort it based on fitness values
+			WSCInitializer.arvIndi.sort(orderingByFit);
+//			Collections.shuffle(WSCInitializer.arvIndi);
+
+			if (WSCInitializer.arvIndi.size() > WSCInitializer.archiveSize) {
+
+				WSCInitializer.arvIndi = WSCInitializer.arvIndi.subList(0, 30);
+//				System.out.print(WSCInitializer.arvIndi.size());
 			}
-		};
 
-		// sort it based on fitness values
-		WSCInitializer.arvIndi.sort(orderingByFit);
-
-		if (WSCInitializer.arvIndi.size() > 30) {
-
-			WSCInitializer.arvIndi = WSCInitializer.arvIndi.subList(0, 30);
 		}
 
 	}

@@ -34,13 +34,14 @@ public class WSCProblem extends Problem implements SimpleProblemForm {
 
 //!!!Method for important sampling based on single dimension failures 
 
-		if (state.generation >= 79) {
-			double f = calculateRustnessFitnessBasedOnImportantSampling(ind2, f_ind2, init, state);
-			((SimpleFitness) ind2.fitness).setFitness(state, f, false);
+		if (state.generation < WSCInitializer.restartSize) {
+
+			((SimpleFitness) ind2.fitness).setFitness(state, f_ind2, false);
 
 		} else {
 
-			((SimpleFitness) ind2.fitness).setFitness(state, f_ind2, false);
+			double f = calculateRustnessFitnessBasedOnImportantSampling(ind2, f_ind2, init, state);
+			((SimpleFitness) ind2.fitness).setFitness(state, f, false);
 
 		}
 

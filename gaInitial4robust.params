@@ -9,9 +9,12 @@ lsNum             = 10
 
 #testing setting
 robustNum-testing = 200
+archive = 30
+restart = 80
 
 
-seed.0                                         = 0
+
+seed.0                                         = 3
 composition-task                               = problem.xml
 composition-taxonomy                           = taxonomy.owl
 composition-services                           = services-output.xml
