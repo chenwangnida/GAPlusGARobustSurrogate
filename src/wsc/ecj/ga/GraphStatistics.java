@@ -269,6 +269,7 @@ public class GraphStatistics extends SimpleShortStatistics {
 			// simulate an disturbance
 			
 			double f_ind2 = ind2.calculateSequenceFitness4Disturbance(ind2, init, state);
+//			System.out.println("tested fitnes: "+f_ind2);
 
 			if (f_ind2 == 0) {
 				countFailure++;

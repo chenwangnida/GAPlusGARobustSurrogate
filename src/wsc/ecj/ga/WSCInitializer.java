@@ -117,6 +117,9 @@ public class WSCInitializer extends SimpleInitializer {
 	public int lsNum;
 	public static int archiveSize;
 	public static int restartSize;
+	public static int restartLowerSize;
+	public static int every_num_gen;
+
 	
 
 	// initial value of weight for no failures important scenario
@@ -157,6 +160,10 @@ public class WSCInitializer extends SimpleInitializer {
 		Parameter robustNumTestingParam = new Parameter("robustNum-testing");
 		Parameter archiveParam = new Parameter("archive");
 		Parameter restartParam = new Parameter("restart");
+		Parameter restartLowerParam = new Parameter("restart-lower");
+		Parameter everyNumGenParam = new Parameter("every-num-gen");
+
+
 
 		String serviceFileName = state.parameters.getStringWithDefault(servicesParam, null, null);
 		String taskFileName = state.parameters.getStringWithDefault(taskParam, null, null);
@@ -175,6 +182,8 @@ public class WSCInitializer extends SimpleInitializer {
 		
 		archiveSize = state.parameters.getInt(archiveParam, null);
 		restartSize = state.parameters.getInt(restartParam, null);
+		restartLowerSize = state.parameters.getInt(restartLowerParam, null);
+		every_num_gen = state.parameters.getInt(everyNumGenParam, null);
 
 		random_disturbace = new Random(seed);
 

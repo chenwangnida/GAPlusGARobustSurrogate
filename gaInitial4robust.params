@@ -4,17 +4,19 @@ parent.0		=  simple.params
 
 pop.subpop.0.size = 30
 generations       = 100
+restart = 101
 robustNum	      = 50
 lsNum             = 10
 
 #testing setting
 robustNum-testing = 200
 archive = 30
-restart = 80
+restart-lower = 60
+every-num-gen = 6
 
 
 
-seed.0                                         = 3
+seed.0                                         = 0
 composition-task                               = problem.xml
 composition-taxonomy                           = taxonomy.owl
 composition-services                           = services-output.xml
